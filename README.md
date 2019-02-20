@@ -4,4 +4,4 @@ The client app use the famous Free Admin Bootstrap Theme [SB Admin v7.0](http://
 
 Powered by [StartAngular](http://startangular.com/) & [StrapUI](http://strapui.com/)
 
-The server app use lumen
+We use laravel for the web server
