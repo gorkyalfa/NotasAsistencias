@@ -6,10 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
-import { ActividadComponent } from './parametrizacion/actividad/actividad.component';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -27,6 +27,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
+        FormsModule,
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {
@@ -37,7 +38,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         }),
         AppRoutingModule
     ],
-    declarations: [AppComponent, ActividadComponent],
+    declarations: [AppComponent],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
