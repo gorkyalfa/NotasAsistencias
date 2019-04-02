@@ -16,7 +16,8 @@ const routes: Routes = [
             { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
             { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
-            { path: 'actividad', loadChildren: '../parametrizacion/actividad/actividad.module#ActividadModule' }
+            { path: 'actividad', loadChildren: '../parametrizacion/actividad/actividad.module#ActividadModule' },
+            { path: 'nota', loadChildren: '../calificacion/nota/nota.module#NotaModule' },
         ]
     }
 ];
