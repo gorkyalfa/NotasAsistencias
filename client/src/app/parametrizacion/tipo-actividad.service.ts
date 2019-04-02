@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { TipoActividad } from '../models/tipoActividad';
-import { TIPOSACTIVIDAD } from '../mocks/mock-tiposActividad';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class TipoActividadService {
-  constructor() {}
+  headers: HttpHeaders;
 
-  getTiposActividad(): TipoActividad[] {
-    return TIPOSACTIVIDAD;
+  constructor(private _http: HttpClient) {}
+
+  getTiposActividad() {
+    return this._http.get(environment.API_URL + 'tiposactividad/get', { headers: this.headers });
   }
 }

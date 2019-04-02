@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { NotaRoutingModule } from './nota-routing.module';
 import { NotaComponent } from './nota.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
-    imports: [CommonModule, NotaRoutingModule],
-    declarations: [NotaComponent]
+  declarations: [NotaComponent],
+  imports: [CommonModule, FormsModule, NotaRoutingModule, NgxSpinnerModule]
 })
 export class NotaModule {}

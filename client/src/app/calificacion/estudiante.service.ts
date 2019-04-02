@@ -5,12 +5,12 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AsignaturaService {
+export class EstudianteService {
   headers: HttpHeaders;
 
   constructor(private _http: HttpClient) {}
 
-  getAsignaturas(idDocente: number) {
-    return this._http.get(environment.API_URL + 'asignaturas/getasignaturaparalelo?idDocente=' + idDocente, { headers: this.headers });
+  getEstudiantes(idAsignaturaParalelo: number) {
+    return this._http.get(environment.API_URL + 'estudiantes/get?idAsignaturaParalelo=' + idAsignaturaParalelo, { headers: this.headers });
   }
 }

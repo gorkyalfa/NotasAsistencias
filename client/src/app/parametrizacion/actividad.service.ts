@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actividad } from '../models/actividad';
-import { ACTIVIDADES } from '../mocks/mock-actividades';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
@@ -12,15 +11,18 @@ export class ActividadService {
 
   constructor(private _http: HttpClient) {}
 
-  getActividades(idDocente: number, idAsignatura: number): Actividad[] {
-    // TODO : filtrar por docente y asignatura
-    return ACTIVIDADES;
-    // return this._http.get(environment.API_URL + 'actividades/get?idDocente='
-    // + idDocente + '&idAsignatura=' + idAsignatura, {headers: this.headers});
+  getActividades(idDocente: number, idAsignaturaParalelo: number) {
+    return this._http.get(
+      environment.API_URL + 'actividades/get?idDocente=' + idDocente + '&idAsignaturaParalelo=' + idAsignaturaParalelo,
+      { headers: this.headers }
+    );
   }
 
   saveActividades(actividadesPorBorrar: number[], actividades: Actividad[]) {
-    return this._http.post(environment.API_URL + 'actividades/save',
-     {'borradas': actividadesPorBorrar, 'modificadas': actividades}, {headers: this.headers});
+    return this._http.post(
+      environment.API_URL + 'actividades/save',
+      { borradas: actividadesPorBorrar, modificadas: actividades },
+      { headers: this.headers }
+    );
   }
 }

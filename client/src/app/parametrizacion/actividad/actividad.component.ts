@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import alerta from 'sweetalert2';
+
+import { Actividad } from '../../models/actividad';
+import { Asignatura } from '../../models/asignatura';
+import { TipoActividad } from '../../models/tipoActividad';
+
 import { ActividadService } from '../actividad.service';
 import { AsignaturaService } from '../asignatura.service';
 import { TipoActividadService } from '../tipo-actividad.service';
 import { UsuarioService } from '../../global/usuario.service';
-import { Actividad } from '../../models/actividad';
-import { Asignatura } from '../../models/asignatura';
-import { TipoActividad } from '../../models/tipoActividad';
 
 @Component({
   selector: 'app-actividad',
@@ -15,33 +18,23 @@ import { TipoActividad } from '../../models/tipoActividad';
 })
 export class ActividadComponent implements OnInit {
   idAsignatura: number;
-  asignaturas: Asignatura[];
   actividades: Actividad[];
-  tiposActividad: TipoActividad[];
   actividadesPorBorrar: number[] = [];
+  asignaturas: Asignatura[];
+  tiposActividad: TipoActividad[];
 
   constructor(
+    private spinner: NgxSpinnerService,
     private actividadService: ActividadService,
-    private usuarioService: UsuarioService,
     private asignaturaService: AsignaturaService,
-    private tipoActividadService: TipoActividadService
+    private tipoActividadService: TipoActividadService,
+    private usuarioService: UsuarioService
   ) {}
 
   ngOnInit() {
+    this.actividadesPorBorrar = [];
     this.getTiposActividad();
     this.getAsignaturas();
-    alerta.fire({
-      title: 'Buen trabajo!',
-      position: 'top-end',
-      type: 'success',
-      text: 'Se cargaron los datos',
-      showConfirmButton: false,
-      timer: 3000
-    });
-  }
-
-  getTiposActividad(): void {
-    this.tiposActividad = this.tipoActividadService.getTiposActividad();
   }
 
   getActividades(): void {
@@ -57,12 +50,68 @@ export class ActividadComponent implements OnInit {
       return;
     }
     const idDocente = this.usuarioService.getUsuarioActual().id;
-    this.actividades = this.actividadService.getActividades(idDocente, this.idAsignatura);
+    this.spinner.show();
+    this.actividadService.getActividades(idDocente, this.idAsignatura).subscribe(
+      response => {
+        this.actividades = response as Actividad[];
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+        alerta.fire({
+          title: 'Consultar',
+          position: 'top-end',
+          type: 'error',
+          text: 'Los datos no se cargaron',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   getAsignaturas(): void {
-    const id = this.usuarioService.getUsuarioActual().id;
-    this.asignaturas = this.asignaturaService.getAsignaturas(id);
+    this.spinner.show();
+
+    const idDocente = this.usuarioService.getUsuarioActual().id;
+    this.asignaturaService.getAsignaturas(idDocente).subscribe(
+      response => {
+        this.asignaturas = response as Asignatura[];
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+        alerta.fire({
+          title: 'Consultar',
+          position: 'top-end',
+          type: 'error',
+          text: 'Los datos no se cargaron',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
+  }
+
+  getTiposActividad(): void {
+    this.spinner.show();
+    this.tipoActividadService.getTiposActividad().subscribe(
+      response => {
+        this.tiposActividad = response as TipoActividad[];
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+        alerta.fire({
+          title: 'Consultar',
+          position: 'top-end',
+          type: 'error',
+          text: 'Los datos no se cargaron',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   asignaturaChange(idAsignatura: number): void {
@@ -92,11 +141,11 @@ export class ActividadComponent implements OnInit {
   }
 
   grabar(): void {
-    // TODO : realizar todo en una única llamada con transaccionalidad en el servidor
-    // this.spinner = true;
+    this.spinner.show();
     this.actividadService.saveActividades(this.actividadesPorBorrar, this.actividades).subscribe(
       response => {
-        // this.spinner = false;
+        this.ngOnInit();
+        this.spinner.hide();
         alerta.fire({
           title: 'Guardar',
           position: 'top-end',
@@ -105,10 +154,9 @@ export class ActividadComponent implements OnInit {
           showConfirmButton: false,
           timer: 2000
         });
-        this.ngOnInit();
       },
       error => {
-        // this.spinner = false;
+        this.spinner.hide();
         alerta.fire({
           title: 'Guardar',
           position: 'top-end',

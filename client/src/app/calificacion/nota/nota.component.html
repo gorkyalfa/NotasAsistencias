@@ -1,13 +1,30 @@
+<ngx-spinner></ngx-spinner>
 <h4>Calificaciones</h4>
 <hr />
-<div class='row'>
-  <div class='col-lg-1'>
-    <label class='label text-right'>Asignatura:</label>
+<div class="row">
+  <div class="col-lg-1">
+    <label class="label text-right">Asignatura:</label>
   </div>
-  <div class='col-lg-3'>
-  <select class='form-control'>
-    <option>Vinculación</option>
-    <option>Pruebas</option>
-  </select>
+  <div class="col-lg-3">
+    <select class="form-control" id="asignatura" required [(ngModel)]="idAsignatura" (change)="asignaturaChange($event.target.value)">
+      <option *ngFor="let asignatura of asignaturas" [value]="asignatura.id" [ngValue]="asignatura.nombre">
+        {{ asignatura.nombre }}
+      </option>
+    </select>
+  </div>
+  <div class="col-lg-8 text-right">
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      <div class="btn-group mr-2" role="group" aria-label="Primer grupo">
+        <button class="btn btn-primary ml-1 btn-sm" (click)="grabar()" title="Grabar">
+          <span class="fa fa-save"></span>
+        </button>
+      </div>
+      <div class="btn-group mr-2" role="group" aria-label="Segundo grupo">
+        <button class="btn btn-success ml-1 btn-sm" (click)="ngOnInit()" title="Recargar">
+          <span class="fa fa-refresh"></span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+<div class="row"></div>
