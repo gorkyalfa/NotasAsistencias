@@ -21,6 +21,6 @@ export class ActividadService {
 
   saveActividades(actividadesPorBorrar: number[], actividades: Actividad[]) {
     return this._http.post(environment.API_URL + 'actividades/save',
-     {'borrar': actividadesPorBorrar, 'nuevas': actividades}, {headers: this.headers});
+     {'borradas': actividadesPorBorrar, 'modificadas': actividades}, {headers: this.headers});
   }
 }
