@@ -50,21 +50,82 @@ export class NotaComponent implements OnInit {
       });
       return;
     }
+    this.spinner.show();
     const idDocente = this.usuarioService.getUsuarioActual().id;
-    this.actividades = this.actividadService.getActividades(idDocente, this.idAsignatura);
+    this.actividadService.getActividades(idDocente, this.idAsignatura).subscribe(
+      response => {
+        this.actividades = response as Actividad[];
+        this.spinner.hide();
+      },
+      error => {
+        alerta.fire({
+          title: 'Consulta',
+          position: 'top-end',
+          type: 'error',
+          text: 'No se pudo consultar los datos',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   getAsignaturas(): void {
     const idDocente = this.usuarioService.getUsuarioActual().id;
-    this.asignaturas = this.asignaturaService.getAsignaturas(idDocente);
+    this.asignaturaService.getAsignaturas(idDocente).subscribe(
+      response => {
+        this.asignaturas = response as Asignatura[];
+        this.spinner.hide();
+      },
+      error => {
+        alerta.fire({
+          title: 'Consulta',
+          position: 'top-end',
+          type: 'error',
+          text: 'No se pudo consultar los datos',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   getEstudiantes(): void {
-    this.estudiantes = this.estudianteService.getEstudiantes(this.idAsignatura);
+    this.estudianteService.getEstudiantes(this.idAsignatura).subscribe(
+      response => {
+        this.estudiantes = response as Estudiante[];
+        this.spinner.hide();
+      },
+      error => {
+        alerta.fire({
+          title: 'Consulta',
+          position: 'top-end',
+          type: 'error',
+          text: 'No se pudo consultar los datos',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   getTiposActividad(): void {
-    this.tiposActividad = this.tipoActividadService.getTiposActividad();
+    this.tipoActividadService.getTiposActividad().subscribe(
+      response => {
+        this.tiposActividad = response as TipoActividad[];
+        this.spinner.hide();
+      },
+      error => {
+        alerta.fire({
+          title: 'Consulta',
+          position: 'top-end',
+          type: 'error',
+          text: 'No se pudo consultar los datos',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   asignaturaChange(idAsignatura: number): void {
