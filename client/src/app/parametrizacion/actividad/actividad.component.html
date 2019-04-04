@@ -6,9 +6,9 @@
     <label class="label text-right">Asignatura:</label>
   </div>
   <div class="col-lg-3">
-    <select class="form-control" id="asignatura" required [(ngModel)]="idAsignatura" (change)="asignaturaChange($event.target.value)">
-      <option *ngFor="let asignatura of asignaturas" [value]="asignatura.id" [ngValue]="asignatura.nombre">
-        {{ asignatura.nombre }}
+    <select class="form-control" required [(ngModel)]="idAsignaturaParalelo" (change)="asignaturaParaleloChange($event.target.value)">
+      <option *ngFor="let actual of asignaturasParalelo" [value]="actual.id" [ngValue]="actual.nombre">
+        {{ actual.nombre }}
       </option>
     </select>
   </div>

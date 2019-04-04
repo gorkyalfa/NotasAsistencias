@@ -11,6 +11,6 @@ export class AsignaturaService {
   constructor(private _http: HttpClient) {}
 
   getAsignaturas(idDocente: number) {
-    return this._http.get(environment.API_URL + 'asignaturas/getasignaturaparalelo?idDocente=' + idDocente, { headers: this.headers });
+    return this._http.get(environment.API_URL + 'asignaturaparalelo/iddocente/' + idDocente, { headers: this.headers });
   }
 }

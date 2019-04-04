@@ -11,7 +11,7 @@ export const TIPOSACTIVIDAD: TipoActividad[] = [
   },
   {
     id: 3,
-    nombre: 'Evaluación escrita o práctica'
+    nombre: 'Evaluación'
   },
   {
     id: 4,

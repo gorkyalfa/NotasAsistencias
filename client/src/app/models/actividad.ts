@@ -1,7 +1,6 @@
 export class Actividad {
   id: number;
-  idAsignatura: number;
-  idDocente: number;
+  idAsignaturaParalelo: number;
   nombre: string;
   descripcion: string;
   creacion: Date;
