@@ -11,16 +11,16 @@ export class ActividadService {
 
   constructor(private _http: HttpClient) {}
 
-  getActividades(idDocente: number, idAsignaturaParalelo: number) {
+  getActividades(idAsignaturaParalelo: number) {
     return this._http.get(
-      environment.API_URL + 'actividades/get?idDocente=' + idDocente + '&idAsignaturaParalelo=' + idAsignaturaParalelo,
+      environment.API_URL + 'actividad/idasignaturaparalelo/' + idAsignaturaParalelo,
       { headers: this.headers }
     );
   }
 
   saveActividades(actividadesPorBorrar: number[], actividades: Actividad[]) {
     return this._http.post(
-      environment.API_URL + 'actividades/save',
+      environment.API_URL + 'actividad',
       { borradas: actividadesPorBorrar, modificadas: actividades },
       { headers: this.headers }
     );

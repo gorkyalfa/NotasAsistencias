@@ -11,6 +11,6 @@ export class TipoActividadService {
   constructor(private _http: HttpClient) {}
 
   getTiposActividad() {
-    return this._http.get(environment.API_URL + 'tiposactividad/get', { headers: this.headers });
+    return this._http.get(environment.API_URL + 'tipoactividad', { headers: this.headers });
   }
 }

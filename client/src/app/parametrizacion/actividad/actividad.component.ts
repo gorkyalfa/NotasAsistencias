@@ -3,7 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import alerta from 'sweetalert2';
 
 import { Actividad } from '../../models/actividad';
-import { Asignatura } from '../../models/asignatura';
+import { AsignaturaParalelo } from '../../models/asignaturaParalelo';
 import { TipoActividad } from '../../models/tipoActividad';
 
 import { ActividadService } from '../actividad.service';
@@ -17,10 +17,10 @@ import { UsuarioService } from '../../global/usuario.service';
   styleUrls: ['./actividad.component.scss']
 })
 export class ActividadComponent implements OnInit {
-  idAsignatura: number;
+  idAsignaturaParalelo: number;
   actividades: Actividad[];
   actividadesPorBorrar: number[] = [];
-  asignaturas: Asignatura[];
+  asignaturasParalelo: AsignaturaParalelo[];
   tiposActividad: TipoActividad[];
 
   constructor(
@@ -34,11 +34,11 @@ export class ActividadComponent implements OnInit {
   ngOnInit() {
     this.actividadesPorBorrar = [];
     this.getTiposActividad();
-    this.getAsignaturas();
+    this.getAsignaturasParalelo();
   }
 
   getActividades(): void {
-    if (this.idAsignatura == null) {
+    if (this.idAsignaturaParalelo == null) {
       alerta.fire({
         title: 'Valor inválido',
         position: 'top-end',
@@ -49,9 +49,8 @@ export class ActividadComponent implements OnInit {
       });
       return;
     }
-    const idDocente = this.usuarioService.getUsuarioActual().id;
     this.spinner.show();
-    this.actividadService.getActividades(idDocente, this.idAsignatura).subscribe(
+    this.actividadService.getActividades(this.idAsignaturaParalelo).subscribe(
       response => {
         this.actividades = response as Actividad[];
         this.spinner.hide();
@@ -70,13 +69,13 @@ export class ActividadComponent implements OnInit {
     );
   }
 
-  getAsignaturas(): void {
+  getAsignaturasParalelo(): void {
     this.spinner.show();
 
     const idDocente = this.usuarioService.getUsuarioActual().id;
     this.asignaturaService.getAsignaturas(idDocente).subscribe(
       response => {
-        this.asignaturas = response as Asignatura[];
+        this.asignaturasParalelo = response as AsignaturaParalelo[];
         this.spinner.hide();
       },
       error => {
@@ -114,7 +113,7 @@ export class ActividadComponent implements OnInit {
     );
   }
 
-  asignaturaChange(idAsignatura: number): void {
+  asignaturaParaleloChange(idAsignatura: number): void {
     this.getActividades();
   }
 
@@ -127,10 +126,22 @@ export class ActividadComponent implements OnInit {
   }
 
   nuevo(): void {
+    if (this.idAsignaturaParalelo == null || this.idAsignaturaParalelo === 0
+      || this.tiposActividad == null || this.tiposActividad.length === 0) {
+      alerta.fire({
+        title: 'Creación',
+        position: 'top-end',
+        type: 'warning',
+        text: 'No se pudo crear una actividad, no hay datos',
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
     const nuevaActividad: Actividad = {
       id: 0,
-      idAsignatura: this.idAsignatura,
-      idDocente: this.usuarioService.getUsuarioActual().id,
+      idAsignaturaParalelo: this.idAsignaturaParalelo,
       idTipoActividad: this.tiposActividad[0].id,
       creacion: new Date(),
       entrega: new Date(),
