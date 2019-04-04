@@ -17,11 +17,11 @@ import { UsuarioService } from '../../global/usuario.service';
   styleUrls: ['./actividad.component.scss']
 })
 export class ActividadComponent implements OnInit {
-  idAsignaturaParalelo: number;
-  actividades: Actividad[];
-  actividadesPorBorrar: number[] = [];
-  asignaturasParalelo: AsignaturaParalelo[];
-  tiposActividad: TipoActividad[];
+  idAsignaturaParalelo: 0;
+  actividades: Actividad[] = new Array<Actividad>();
+  actividadesPorBorrar: number[] = new Array<number>();
+  asignaturasParalelo: AsignaturaParalelo[] = new Array<AsignaturaParalelo>();
+  tiposActividad: TipoActividad[] = new Array<TipoActividad>();
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -32,7 +32,11 @@ export class ActividadComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.actividadesPorBorrar = [];
+    this.idAsignaturaParalelo = 0;
+    this.actividades = new Array<Actividad>();
+    this.actividadesPorBorrar = new Array<number>();
+    this.asignaturasParalelo = new Array<AsignaturaParalelo>();
+    this.tiposActividad = new Array<TipoActividad>();
     this.getTiposActividad();
     this.getAsignaturasParalelo();
   }
@@ -52,7 +56,11 @@ export class ActividadComponent implements OnInit {
     this.spinner.show();
     this.actividadService.getActividades(this.idAsignaturaParalelo).subscribe(
       response => {
-        this.actividades = response as Actividad[];
+        if (Object.keys(response['actividades']).length === 0) {
+          this.actividades = new Array<Actividad>();
+        } else {
+          this.actividades = response['actividades'] as Actividad[];
+        }
         this.spinner.hide();
       },
       error => {
@@ -75,7 +83,7 @@ export class ActividadComponent implements OnInit {
     const idDocente = this.usuarioService.getUsuarioActual().id;
     this.asignaturaService.getAsignaturas(idDocente).subscribe(
       response => {
-        this.asignaturasParalelo = response as AsignaturaParalelo[];
+        this.asignaturasParalelo = response['asignaturas'] as AsignaturaParalelo[];
         this.spinner.hide();
       },
       error => {
@@ -96,7 +104,7 @@ export class ActividadComponent implements OnInit {
     this.spinner.show();
     this.tipoActividadService.getTiposActividad().subscribe(
       response => {
-        this.tiposActividad = response as TipoActividad[];
+        this.tiposActividad = response['tiposActividad'] as TipoActividad[];
         this.spinner.hide();
       },
       error => {
@@ -126,8 +134,12 @@ export class ActividadComponent implements OnInit {
   }
 
   nuevo(): void {
-    if (this.idAsignaturaParalelo == null || this.idAsignaturaParalelo === 0
-      || this.tiposActividad == null || this.tiposActividad.length === 0) {
+    if (
+      this.idAsignaturaParalelo == null ||
+      this.idAsignaturaParalelo === 0 ||
+      this.tiposActividad == null ||
+      this.tiposActividad.length === 0
+    ) {
       alerta.fire({
         title: 'Creación',
         position: 'top-end',

@@ -7,7 +7,7 @@
   </div>
   <div class="col-lg-3">
     <select class="form-control" required [(ngModel)]="idAsignaturaParalelo" (change)="asignaturaParaleloChange($event.target.value)">
-      <option *ngFor="let actual of asignaturasParalelo" [value]="actual.id" [ngValue]="actual.nombre">
+      <option *ngFor="let actual of asignaturasParalelo" [value]="actual.id" [ngValue]="actual.id">
         {{ actual.nombre }}
       </option>
     </select>
