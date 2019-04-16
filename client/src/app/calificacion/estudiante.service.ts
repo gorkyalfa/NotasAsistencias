@@ -10,7 +10,7 @@ export class EstudianteService {
 
   constructor(private _http: HttpClient) {}
 
-  getEstudiantes(idAsignaturaParalelo: number) {
-    return this._http.get(environment.API_URL + 'estudiante/idasignaturaparalelo/' + idAsignaturaParalelo, { headers: this.headers });
+  getEstudiantes(asignatura_paralelo_id: number) {
+    return this._http.get(environment.API_URL + 'estudiante/asignatura_paralelo_id/' + asignatura_paralelo_id, { headers: this.headers });
   }
 }

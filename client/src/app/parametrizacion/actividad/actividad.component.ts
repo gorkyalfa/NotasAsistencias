@@ -17,7 +17,7 @@ import { UsuarioService } from '../../global/usuario.service';
   styleUrls: ['./actividad.component.scss']
 })
 export class ActividadComponent implements OnInit {
-  idAsignaturaParalelo: 0;
+  asignatura_paralelo_id: 0;
   actividades: Actividad[] = new Array<Actividad>();
   actividadesPorBorrar: number[] = new Array<number>();
   asignaturasParalelo: AsignaturaParalelo[] = new Array<AsignaturaParalelo>();
@@ -32,7 +32,7 @@ export class ActividadComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.idAsignaturaParalelo = 0;
+    this.asignatura_paralelo_id = 0;
     this.actividades = new Array<Actividad>();
     this.actividadesPorBorrar = new Array<number>();
     this.asignaturasParalelo = new Array<AsignaturaParalelo>();
@@ -42,7 +42,7 @@ export class ActividadComponent implements OnInit {
   }
 
   getActividades(): void {
-    if (this.idAsignaturaParalelo == null) {
+    if (this.asignatura_paralelo_id == null) {
       alerta.fire({
         title: 'Valor inválido',
         position: 'top-end',
@@ -54,7 +54,7 @@ export class ActividadComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.actividadService.getActividades(this.idAsignaturaParalelo).subscribe(
+    this.actividadService.getActividades(this.asignatura_paralelo_id).subscribe(
       response => {
         if (Object.keys(response['actividades']).length === 0) {
           this.actividades = new Array<Actividad>();
@@ -135,8 +135,8 @@ export class ActividadComponent implements OnInit {
 
   nuevo(): void {
     if (
-      this.idAsignaturaParalelo == null ||
-      this.idAsignaturaParalelo === 0 ||
+      this.asignatura_paralelo_id == null ||
+      this.asignatura_paralelo_id === 0 ||
       this.tiposActividad == null ||
       this.tiposActividad.length === 0
     ) {
@@ -153,8 +153,9 @@ export class ActividadComponent implements OnInit {
 
     const nuevaActividad: Actividad = {
       id: 0,
-      idAsignaturaParalelo: this.idAsignaturaParalelo,
-      idTipoActividad: this.tiposActividad[0].id,
+      asignatura_paralelo_id: this.asignatura_paralelo_id,
+      tipo_actividad_id: this.tiposActividad[0].id,
+      parcial_id: 1, // TODO : colocar el parcial
       creacion: new Date(),
       entrega: new Date(),
       nombre: 'Nueva actividad',

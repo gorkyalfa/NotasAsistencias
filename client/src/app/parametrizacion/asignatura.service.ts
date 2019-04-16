@@ -8,8 +8,8 @@ import { HeaderService } from '../global/header.service';
 export class AsignaturaService {
   constructor(private _http: HttpClient, private headerService: HeaderService) {}
 
-  getAsignaturas(idDocente: number) {
-    return this._http.get(environment.API_URL + 'asignaturaparalelo/iddocente/' + idDocente,
+  getAsignaturas(docente_id: number) {
+    return this._http.get(environment.API_URL + 'asignaturaparalelo/docente_id/' + docente_id,
     { headers: this.headerService.getSecurity() });
   }
 }

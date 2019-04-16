@@ -1,6 +1,8 @@
 export class AsignaturaParalelo {
   id: number;
-  idParalelo: number;
-  idAsignatura: number;
+  paralelo_id: number;
+  asignatura_id: number;
   nombre: string;
+  nombreAsignatura: string;
+  nombreParalelo: string;
 }

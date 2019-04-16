@@ -10,9 +10,9 @@ import { HeaderService } from '../global/header.service';
 export class ActividadService {
   constructor(private _http: HttpClient, private headerService: HeaderService) {}
 
-  getActividades(idAsignaturaParalelo: number) {
+  getActividades(asignatura_paralelo_id: number) {
     return this._http.get(
-      environment.API_URL + 'actividad/idasignaturaparalelo/' + idAsignaturaParalelo,
+      environment.API_URL + 'actividad/asignatura_paralelo_id/' + asignatura_paralelo_id,
       { headers: this.headerService.getSecurity() }
     );
   }

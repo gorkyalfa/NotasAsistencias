@@ -19,7 +19,7 @@ import { UsuarioService } from '../../global/usuario.service';
   styleUrls: ['./nota.component.scss']
 })
 export class NotaComponent implements OnInit {
-  idAsignaturaParalelo: number;
+  asignatura_paralelo_id: number;
   actividades: Actividad[];
   asignaturasParalelo: AsignaturaParalelo[];
   estudiantes: Estudiante[];
@@ -36,10 +36,13 @@ export class NotaComponent implements OnInit {
 
   ngOnInit() {
     this.getAsignaturas();
+    this.estudiantes = [
+      { id: 1, nombres: 'Edwin', apellidos: 'Catucuago', correo: 'ecatu@yavirac.edu.ec', telefono: '099123456', cedula: '1234567890' }
+    ];
   }
 
   getActividades(): void {
-    if (this.idAsignaturaParalelo == null) {
+    if (this.asignatura_paralelo_id == null) {
       alerta.fire({
         title: 'Valor inválido',
         position: 'top-end',
@@ -51,8 +54,8 @@ export class NotaComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    const idDocente = this.usuarioService.getUsuarioActual().id;
-    this.actividadService.getActividades(this.idAsignaturaParalelo).subscribe(
+    const docente_id = this.usuarioService.getUsuarioActual().id;
+    this.actividadService.getActividades(this.asignatura_paralelo_id).subscribe(
       response => {
         this.actividades = response as Actividad[];
         this.spinner.hide();
@@ -71,8 +74,8 @@ export class NotaComponent implements OnInit {
   }
 
   getAsignaturas(): void {
-    const idDocente = this.usuarioService.getUsuarioActual().id;
-    this.asignaturaService.getAsignaturas(idDocente).subscribe(
+    const docente_id = this.usuarioService.getUsuarioActual().id;
+    this.asignaturaService.getAsignaturas(docente_id).subscribe(
       response => {
         this.asignaturasParalelo = response as AsignaturaParalelo[];
         this.spinner.hide();
@@ -91,7 +94,7 @@ export class NotaComponent implements OnInit {
   }
 
   getEstudiantes(): void {
-    this.estudianteService.getEstudiantes(this.idAsignaturaParalelo).subscribe(
+    this.estudianteService.getEstudiantes(this.asignatura_paralelo_id).subscribe(
       response => {
         this.estudiantes = response as Estudiante[];
         this.spinner.hide();
@@ -128,7 +131,7 @@ export class NotaComponent implements OnInit {
     );
   }
 
-  asignaturaParaleloChange(idAsignaturaParalelo: number): void {
+  asignaturaParaleloChange(asignatura_paralelo_id: number): void {
     this.getActividades();
   }
 
